@@ -1,7 +1,7 @@
 import path from "path";
 
 const validate = options => {
-  const { root, alias, path } = options;
+  const { root = process.cwd(), alias, path } = options;
   if (typeof root !== "string") {
     throw new Error(
       `babel-plugin-codemod-aliased-imports expected an \`root\` option of type string. Received ${root} instead.`
@@ -26,10 +26,10 @@ export default api => {
       ImportDeclaration(node, state) {
         validate(state.opts);
         const {
-          opts: { root, alias, path: relativeAliasedPath }
+          opts: { root = process.cwd(), alias, path: relativeAliasedPath }
         } = state;
         const source = node.get("source");
-        if (!node.aliased) {
+        if (!node.aliased && source.node.value.startsWith(".")) {
           const importPath = source.node.value;
           const fileDirname = path.dirname(state.filename);
           const absoluteImportPath = path.resolve(fileDirname, importPath);

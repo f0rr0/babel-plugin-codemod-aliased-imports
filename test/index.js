@@ -12,20 +12,20 @@ const getFixture = filename =>
 
 describe("codemod-aliased-imports", () => {
   it("throws if root not provided", () => {
-    expect(() => transform("import a from 'b'", withOptions())).toThrow(
-      "babel-plugin-codemod-aliased-imports expected an `root` option of type string. Received undefined instead."
-    );
-  });
-
-  it("throws if alias not provided", () => {
     expect(() =>
       transform(
         "import a from 'b'",
         withOptions({
-          root: ""
+          root: null
         })
       )
     ).toThrow(
+      "babel-plugin-codemod-aliased-imports expected an `root` option of type string. Received null instead."
+    );
+  });
+
+  it("throws if alias not provided", () => {
+    expect(() => transform("import a from 'b'", withOptions({}))).toThrow(
       "babel-plugin-codemod-aliased-imports expected an `alias` option of type string. Received undefined instead."
     );
   });
@@ -35,7 +35,6 @@ describe("codemod-aliased-imports", () => {
       transform(
         "import a from 'b'",
         withOptions({
-          root: "",
           alias: ""
         })
       )
@@ -60,7 +59,6 @@ describe("codemod-aliased-imports", () => {
       transformFileSync(
         getFixture("ancestor"),
         withOptions({
-          root: "./",
           alias: "~",
           path: "./"
         })
@@ -85,6 +83,17 @@ describe("codemod-aliased-imports", () => {
           root: "./test",
           alias: "~",
           path: "./fixtures/bar"
+        })
+      ).code
+    ).toMatchSnapshot();
+
+    expect(
+      transformFileSync(
+        getFixture("node-module"),
+        withOptions({
+          root: "./test",
+          alias: "~",
+          path: "./fixtures/foo"
         })
       ).code
     ).toMatchSnapshot();

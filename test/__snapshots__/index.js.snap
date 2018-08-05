@@ -7,3 +7,5 @@ exports[`codemod-aliased-imports handles imports correctly 2`] = `"import foo fr
 exports[`codemod-aliased-imports handles imports correctly 3`] = `"import baz from \\"~/foo/baz\\";"`;
 
 exports[`codemod-aliased-imports handles imports correctly 4`] = `"import { foo as bar } from \\"~/foo/baz\\";"`;
+
+exports[`codemod-aliased-imports handles imports correctly 5`] = `"import foo from \\"foo\\";"`;
