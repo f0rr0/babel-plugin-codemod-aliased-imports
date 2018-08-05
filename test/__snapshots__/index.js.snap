@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`codemod-aliased-imports handles imports correctly 1`] = `"import from \\"~\\";"`;
+exports[`codemod-aliased-imports handles imports correctly 1`] = `"import foo from \\"~\\";"`;
 
-exports[`codemod-aliased-imports handles imports correctly 2`] = `"import from \\"~/foo/bar\\";"`;
+exports[`codemod-aliased-imports handles imports correctly 2`] = `"import foo from \\"~/foo/bar\\";"`;
 
-exports[`codemod-aliased-imports handles imports correctly 3`] = `"import from \\"~/foo/baz\\";"`;
+exports[`codemod-aliased-imports handles imports correctly 3`] = `"import baz from \\"~/foo/baz\\";"`;

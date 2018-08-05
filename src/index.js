@@ -1,8 +1,12 @@
-import { declare } from "@babel/helper-plugin-utils";
 import path from "path";
 
 const validate = options => {
-  const { alias, path } = options;
+  const { root, alias, path } = options;
+  if (typeof root !== "string") {
+    throw new Error(
+      `babel-plugin-codemod-aliased-imports expected an \`root\` option of type string. Received ${root} instead.`
+    );
+  }
   if (typeof alias !== "string") {
     throw new Error(
       `babel-plugin-codemod-aliased-imports expected an \`alias\` option of type string. Received ${alias} instead.`
@@ -15,39 +19,32 @@ const validate = options => {
   }
 };
 
-export default declare((api, options, dirname) => {
-  if (api.version.startsWith("7")) {
-    validate(options);
-  }
+export default api => {
   return {
     name: "codemod-aliased-imports",
     visitor: {
       ImportDeclaration(node, state) {
-        if (api.version.startsWith("6")) {
-          validate(state.opts);
-        }
+        validate(state.opts);
         const {
-          opts: { alias, path: relativeAliasedPath }
+          opts: { root, alias, path: relativeAliasedPath }
         } = state;
-        const importPath = node.get("source").node.value;
-        const fileDirname = path.dirname(state.filename);
-        const absoluteImportPath = path.resolve(fileDirname, importPath);
-        const absoluteAliasedPath = path.resolve(dirname, relativeAliasedPath);
-        if (
-          !node.aliased &&
-          absoluteImportPath.startsWith(absoluteAliasedPath)
-        ) {
+        const source = node.get("source");
+        if (!node.aliased) {
+          const importPath = source.node.value;
+          const fileDirname = path.dirname(state.filename);
+          const absoluteImportPath = path.resolve(fileDirname, importPath);
+          const absoluteAliasedPath = path.resolve(
+            path.resolve(process.cwd(), root),
+            relativeAliasedPath
+          );
           node.aliased = true;
-          node.replaceWith(
-            api.types.importDeclaration(
-              node.get("specifiers"),
-              api.types.stringLiteral(
-                absoluteImportPath.replace(absoluteAliasedPath, alias)
-              )
+          source.replaceWith(
+            api.types.stringLiteral(
+              absoluteImportPath.replace(absoluteAliasedPath, alias)
             )
           );
         }
       }
     }
   };
-});
+};
