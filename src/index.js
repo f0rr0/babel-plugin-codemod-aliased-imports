@@ -26,7 +26,9 @@ export default declare((api, options, dirname) => {
         if (api.version.startsWith("6")) {
           validate(state.opts);
         }
-        const { alias, path: relativeAliasedPath } = options;
+        const {
+          opts: { alias, path: relativeAliasedPath }
+        } = state;
         const importPath = node.get("source").node.value;
         const fileDirname = path.dirname(state.filename);
         const absoluteImportPath = path.resolve(fileDirname, importPath);
