@@ -77,5 +77,16 @@ describe("codemod-aliased-imports", () => {
         })
       ).code
     ).toMatchSnapshot();
+
+    expect(
+      transformFileSync(
+        getFixture("named"),
+        withOptions({
+          root: "./test",
+          alias: "~",
+          path: "./fixtures/bar"
+        })
+      ).code
+    ).toMatchSnapshot();
   });
 });
