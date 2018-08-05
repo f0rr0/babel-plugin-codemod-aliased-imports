@@ -1,5 +1,5 @@
 {
-  "name": "babel-plugin-codemod-aliased-imports",
+  "name": "@f0rr0/babel-plugin-codemod-aliased-imports",
   "version": "0.0.0-development",
   "description": "Babel codemod to alias import paths. Rewrite your source with cleaner import paths for babel-plugin-module-resolver.",
   "main": "lib/index.js",
@@ -71,10 +71,6 @@
         ],
         "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes} [ci skip]"
       }
-    ],
-    "publish": [
-      "@semantic-release/npm",
-      "@semantic-release/github"
     ]
   },
   "scripts": {
@@ -82,10 +78,14 @@
     "test:ci": "jest --ci",
     "build": "babel src --out-dir lib",
     "codecov": "codecov -f coverage/coverage-final.json",
+    "prepublishOnly": "yarn build",
     "release": "semantic-release --ci=true"
   },
   "engines": {
     "node": ">=8"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "repository": {
     "type": "git",
