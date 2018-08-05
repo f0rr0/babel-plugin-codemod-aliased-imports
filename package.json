@@ -1,0 +1,94 @@
+{
+  "name": "@f0rr0/babel-plugin-codemod-aliased-imports",
+  "version": "0.0.0-development",
+  "description": "Babel codemod to alias import paths. Rewrite your source with cleaner import paths for babel-plugin-module-resolver.",
+  "main": "lib/index.js",
+  "author": "f0rr0",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.55",
+    "@babel/core": "^7.0.0-beta.55",
+    "@babel/helper-plugin-utils": "^7.0.0-beta.55",
+    "@babel/preset-env": "^7.0.0-beta.55",
+    "@semantic-release/changelog": "^3.0.0",
+    "@semantic-release/git": "^7.0.1",
+    "@semantic-release/npm": "^5.0.1",
+    "babel-core": "^7.0.0-0",
+    "babel-jest": "^23.4.2",
+    "babel-plugin-tester": "^5.4.0",
+    "codecov": "^3.0.4",
+    "cz-conventional-changelog": "^2.1.0",
+    "husky": "^1.0.0-rc.13",
+    "jest": "^23.4.2",
+    "lint-staged": "^7.2.0",
+    "prettier": "^1.14.0",
+    "semantic-release": "^15.9.5"
+  },
+  "files": [
+    "/lib"
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testRegex": "./test/.+\\.js$",
+    "modulePathIgnorePatterns": [
+      "/test/fixtures/",
+      "<rootDir>/lib/"
+    ],
+    "collectCoverage": true
+  },
+  "release": {
+    "verifyConditions": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ],
+    "prepare": [
+      "@semantic-release/npm",
+      "@semantic-release/changelog",
+      {
+        "path": "@semantic-release/git",
+        "assets": [
+          "CHANGELOG.md",
+          "package.json"
+        ],
+        "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes} [ci skip]"
+      }
+    ]
+  },
+  "scripts": {
+    "test": "jest",
+    "test:ci": "jest --ci",
+    "build": "babel src --out-dir lib",
+    "codecov": "codecov -f coverage/coverage-final.json",
+    "prepublishOnly": "yarn build",
+    "release": "semantic-release --ci=true"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/f0rr0/babel-plugin-codemod-aliased-imports.git"
+  }
+}
