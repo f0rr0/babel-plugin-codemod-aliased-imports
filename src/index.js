@@ -1,22 +1,32 @@
 import { declare } from "@babel/helper-plugin-utils";
 import path from "path";
 
-export default declare((api, options, dirname) => {
-  const { alias, path: relativeAliasedPath } = options;
+const validate = options => {
+  const { alias, path } = options;
   if (typeof alias !== "string") {
     throw new Error(
       `babel-plugin-codemod-aliased-imports expected an \`alias\` option of type string. Received ${alias} instead.`
     );
   }
-  if (typeof relativeAliasedPath !== "string") {
+  if (typeof path !== "string") {
     throw new Error(
-      `babel-plugin-codemod-aliased-imports expected an \`path\` option of type string. Received ${relativeAliasedPath} instead.`
+      `babel-plugin-codemod-aliased-imports expected an \`path\` option of type string. Received ${path} instead.`
     );
+  }
+};
+
+export default declare((api, options, dirname) => {
+  if (api.version.startsWith("7")) {
+    validate(options);
   }
   return {
     name: "codemod-aliased-imports",
     visitor: {
       ImportDeclaration(node, state) {
+        if (api.version.startsWith("6")) {
+          validate(state.opts);
+        }
+        const { alias, path: relativeAliasedPath } = options;
         const importPath = node.get("source").node.value;
         const fileDirname = path.dirname(state.filename);
         const absoluteImportPath = path.resolve(fileDirname, importPath);
