@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/f0rr0/babel-plugin-codemod-aliased-imports/compare/v2.0.0...v2.1.0) (2018-08-05)
+
+
+### Features
+
+* **transform:** ignore node_modules ([0cd697c](https://github.com/f0rr0/babel-plugin-codemod-aliased-imports/commit/0cd697c))
+
 # [2.0.0](https://github.com/f0rr0/babel-plugin-codemod-aliased-imports/compare/v1.2.0...v2.0.0) (2018-08-05)
 
 
