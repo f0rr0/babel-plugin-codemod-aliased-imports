@@ -1,6 +1,6 @@
 {
   "name": "@f0rr0/babel-plugin-codemod-aliased-imports",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Babel codemod to alias import paths. Rewrite your source with cleaner import paths for babel-plugin-module-resolver.",
   "main": "lib/index.js",
   "author": "f0rr0",
