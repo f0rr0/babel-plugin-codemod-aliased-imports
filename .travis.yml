@@ -11,4 +11,5 @@ jobs:
       after_script: greenkeeper-lockfile-upload
       after_success: yarn codecov
     - stage: deploy
+      if: branch = master
       script: yarn release
