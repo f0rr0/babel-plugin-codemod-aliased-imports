@@ -8,7 +8,7 @@
   "private": false,
   "devDependencies": {
     "@babel/cli": "^7.10.1",
-    "@babel/core": "^7.0.0-beta.55",
+    "@babel/core": "^7.10.2",
     "@babel/helper-plugin-utils": "^7.0.0-beta.55",
     "@babel/preset-env": "^7.0.0-beta.55",
     "@semantic-release/changelog": "^3.0.0",
